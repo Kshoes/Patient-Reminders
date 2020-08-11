@@ -10,10 +10,16 @@ const socketio = require('socket.io')
 const app = express();
 
 // Initiate Nexmo
-const nexmo = new Nexmo({
-    apiKey: '37bf6fcd',
-    apiSecret: 'ekNwUWUz7safuV7P',
-}, {debug: true});
+const fs = require('fs');
+const path = require('path');
+const fn = path.join(__dirname, 'config.json');
+const data = fs.readFileSync(fn);
+const config = JSON.parse(data);    // API key and secret contained within config.json
+
+const nexmo = new Nexmo({   
+    apiKey: config.apiKey,
+    apiSecret: config.apiSecret
+ }, {debug: true});
 
 // Template engine setup
 app.set('view engine', 'html');
